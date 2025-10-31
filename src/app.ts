@@ -1,13 +1,13 @@
-import express from "express"
+import express, {Request, Response} from "express"
 
 const app = express()
 app.use(express.json())
 
-app.get("/", (_, res) => {
+app.get("/", (_: Request, res: Response) => {
   res.send("Bem vindo ao curso de TypeScript!")
 })
 
-function createPet(id, name, species, age, adopted) {
+function createPet(id: number, name: string, species: string, age: number, adopted: boolean) {
   return {
     id,
     name,
@@ -17,7 +17,7 @@ function createPet(id, name, species, age, adopted) {
   }
 }
 
-let id = "0"
+let id = 0
 function generateId() {
   id = id + 1
   return id
