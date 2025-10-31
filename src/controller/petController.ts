@@ -1,11 +1,15 @@
 import { Request, Response } from "express"
 import type TypePet from "../types/TypePet"
+import EnumSpecies from "../enum/EnumSpecies"
 
 let listOfPets: TypePet[] = []
 
 export default class PetController {
   createPet(req: Request, res: Response) {
     const { id, name, age, species, adopted } = req.body as TypePet
+    if(!Object.values(EnumSpecies).includes(species)){
+      return res.status(400).json({erro: "Species invalid"})
+    }
     const newPet: TypePet = { id, name, age, species, adopted }
     listOfPets.push(newPet)
     return res.status(201).json(newPet)
