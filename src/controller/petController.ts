@@ -17,7 +17,7 @@ export default class PetController {
     const { id } = req.params
     const { name, age, species, adopted } = req.body as TypePet
     const pet = listOfPets.find(pet => pet.id === Number(id))
-    if (!pet) {
+      if (!pet) {
       return res.status(404).json({ erro: "Pet not found" })
     }
     pet.name = name
@@ -25,5 +25,15 @@ export default class PetController {
     pet.species = species
     pet.adopted = adopted
     return res.status(200).json(pet)
+  }
+  deletePet(req: Request, res: Response) {
+    const { id } = req.params
+    const pet = listOfPets.find(pet => pet.id === Number(id))
+    if (!pet) {
+      return res.status(400).json({ erro: "Pet not found" })
+    }
+    const index = listOfPets.indexOf(pet)
+    listOfPets.splice(index, 1)
+    return res.status(200).json({message: "Removed successfully"})
   }
 }
