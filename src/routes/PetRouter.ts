@@ -6,4 +6,6 @@ const router = Router()
 const petController = new PetController()
 
 router.post("/", petController.createPet)
+router.get("/", petController.listPets)
+
 export default router 

@@ -10,4 +10,7 @@ export default class PetController {
     listOfPets.push(newPet)
     return res.status(201).json(newPet)
   }
+  listPets(req: Request, res: Response) {
+    return res.status(200).json(listOfPets)
+  }
 }
