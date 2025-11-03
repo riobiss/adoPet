@@ -3,7 +3,7 @@ import EnumSpecies from "../enum/EnumSpecies"
 type TypePet = {
   id: number
   name: string
-  age: number
+  dateOfBirth: Date
   species: EnumSpecies
   adopted: boolean
 }

@@ -4,13 +4,19 @@ import EnumSpecies from "../enum/EnumSpecies"
 
 let listOfPets: TypePet[] = []
 
+let id = 0
+function generateId() {
+  id = id + 1
+  return id
+}
 export default class PetController {
   createPet(req: Request, res: Response) {
-    const { id, name, age, species, adopted } = req.body as TypePet
-    if(!Object.values(EnumSpecies).includes(species)){
-      return res.status(400).json({erro: "Species invalid"})
+    const { name, dateOfBirth, species, adopted } = req.body as TypePet
+    if (!Object.values(EnumSpecies).includes(species)) {
+      return res.status(400).json({ erro: "Species invalid" })
     }
-    const newPet: TypePet = { id, name, age, species, adopted }
+
+    const newPet: TypePet = { id: generateId(), name, dateOfBirth, species, adopted }
     listOfPets.push(newPet)
     return res.status(201).json(newPet)
   }
@@ -19,13 +25,13 @@ export default class PetController {
   }
   updatePet(req: Request, res: Response) {
     const { id } = req.params
-    const { name, age, species, adopted } = req.body as TypePet
+    const { name, dateOfBirth, species, adopted } = req.body as TypePet
     const pet = listOfPets.find(pet => pet.id === Number(id))
-      if (!pet) {
+    if (!pet) {
       return res.status(404).json({ erro: "Pet not found" })
     }
     pet.name = name
-    pet.age = age
+    pet.dateOfBirth = dateOfBirth
     pet.species = species
     pet.adopted = adopted
     return res.status(200).json(pet)
@@ -38,6 +44,6 @@ export default class PetController {
     }
     const index = listOfPets.indexOf(pet)
     listOfPets.splice(index, 1)
-    return res.status(200).json({message: "Removed successfully"})
+    return res.status(200).json({ message: "Removed successfully" })
   }
 }
