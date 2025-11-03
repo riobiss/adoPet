@@ -5,7 +5,9 @@
     "outDir": "./build",
     "noImplicitAny": true,
     "noEmitOnError": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "include": ["./src/**/*", "./server.ts"]
 }
