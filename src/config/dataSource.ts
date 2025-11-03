@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm"
 import dotenv from "dotenv"
-import PetEntity from "../entities/PetIEntities"
+import PetEntity from "../entities/PetEntities"
 dotenv.config()
 
 export const AppDataSource = new DataSource({
