@@ -1,6 +1,8 @@
 import { Request, Response } from "express"
 import type TypePet from "../types/TypePet"
 import EnumSpecies from "../enum/EnumSpecies"
+import PetRepository from "../repositories/PetRepository"
+import PetEntity from "../entities/PetEntities"
 
 let listOfPets: TypePet[] = []
 
@@ -10,14 +12,20 @@ function generateId() {
   return id
 }
 export default class PetController {
+  constructor(private repository: PetRepository) {}
   createPet(req: Request, res: Response) {
-    const { name, dateOfBirth, species, adopted } = req.body as TypePet
+    const { name, dateOfBirth, species, adopted } = <PetEntity>req.body
     if (!Object.values(EnumSpecies).includes(species)) {
       return res.status(400).json({ erro: "Species invalid" })
     }
 
-    const newPet: TypePet = { id: generateId(), name, dateOfBirth, species, adopted }
-    listOfPets.push(newPet)
+    const newPet = new PetEntity()
+    newPet.id = generateId()
+    newPet.name = name
+    newPet.dateOfBirth = dateOfBirth
+    newPet.species = species
+    newPet.adopted = adopted
+    this.repository.createPet(newPet)
     return res.status(201).json(newPet)
   }
   listPets(req: Request, res: Response) {
