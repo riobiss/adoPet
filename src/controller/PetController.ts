@@ -12,7 +12,7 @@ function generateId() {
   return id
 }
 export default class PetController {
-  constructor(private repository: PetRepository) {}
+  constructor(private petRepo: PetRepository) {}
   createPet(req: Request, res: Response) {
     const { name, dateOfBirth, species, adopted } = <PetEntity>req.body
     if (!Object.values(EnumSpecies).includes(species)) {
@@ -25,25 +25,23 @@ export default class PetController {
     newPet.dateOfBirth = dateOfBirth
     newPet.species = species
     newPet.adopted = adopted
-    this.repository.createPet(newPet)
+    this.petRepo.createPet(newPet)
     return res.status(201).json(newPet)
   }
   async listPets(req: Request, res: Response) {
-    const listOfPets = await this.repository.listPets()
+    const listOfPets = await this.petRepo.listPets()
     return res.status(200).json(listOfPets)
   }
-  updatePet(req: Request, res: Response) {
+  async updatePet(req: Request, res: Response) {
     const { id } = req.params
-    const { name, dateOfBirth, species, adopted } = req.body as TypePet
-    const pet = listOfPets.find(pet => pet.id === Number(id))
-    if (!pet) {
-      return res.status(404).json({ erro: "Pet not found" })
+    const { success, message } = await this.petRepo.updatePet(
+      Number(id),
+      req.body as PetEntity
+    )
+    if (!success) {
+      return res.status(404).json({ message })
     }
-    pet.name = name
-    pet.dateOfBirth = dateOfBirth
-    pet.species = species
-    pet.adopted = adopted
-    return res.status(200).json(pet)
+    return res.status(200).json({ message })
   }
   deletePet(req: Request, res: Response) {
     const { id } = req.params
