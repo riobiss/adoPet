@@ -28,7 +28,8 @@ export default class PetController {
     this.repository.createPet(newPet)
     return res.status(201).json(newPet)
   }
-  listPets(req: Request, res: Response) {
+  async listPets(req: Request, res: Response) {
+    const listOfPets = await this.repository.listPets()
     return res.status(200).json(listOfPets)
   }
   updatePet(req: Request, res: Response) {
