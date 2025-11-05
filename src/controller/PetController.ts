@@ -4,28 +4,16 @@ import EnumSpecies from "../enum/EnumSpecies"
 import PetRepository from "../repositories/PetRepository"
 import PetEntity from "../entities/PetEntities"
 
-let listOfPets: TypePet[] = []
-
-let id = 0
-function generateId() {
-  id = id + 1
-  return id
-}
 export default class PetController {
   constructor(private petRepo: PetRepository) {}
-  createPet(req: Request, res: Response) {
-    const { name, dateOfBirth, species, adopted } = <PetEntity>req.body
+  async createPet(req: Request, res: Response) {
+    const { name, species, dateOfBirth, adopted } = <PetEntity>req.body
     if (!Object.values(EnumSpecies).includes(species)) {
       return res.status(400).json({ erro: "Species invalid" })
     }
 
-    const newPet = new PetEntity()
-    newPet.id = generateId()
-    newPet.name = name
-    newPet.dateOfBirth = dateOfBirth
-    newPet.species = species
-    newPet.adopted = adopted
-    this.petRepo.createPet(newPet)
+    const newPet = new PetEntity(name, species, dateOfBirth, adopted)
+    await this.petRepo.createPet(newPet)
     return res.status(201).json(newPet)
   }
   async listPets(req: Request, res: Response) {

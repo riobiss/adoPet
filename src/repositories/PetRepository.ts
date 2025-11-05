@@ -7,8 +7,8 @@ export default class PetRepository implements InterfacePetRepository {
   constructor(repository: Repository<PetEntity>) {
     this.repository = repository
   }
-  createPet(pet: PetEntity): void {
-    this.repository.save(pet)
+  async createPet(pet: PetEntity): Promise<void> {
+    await this.repository.save(pet)
   }
   async listPets(): Promise<PetEntity[]> {
     return await this.repository.find()
@@ -29,13 +29,11 @@ export default class PetRepository implements InterfacePetRepository {
       console.log(error)
       return {
         success: false,
-        message: error,
+        message: "Erro no back",
       }
     }
   }
-  async deletePet(
-    id: number,
-  ): Promise<{ success: boolean; message?: string }> {
+  async deletePet(id: number): Promise<{ success: boolean; message?: string }> {
     const petToDelete = await this.repository.findOne({ where: { id } })
     if (!petToDelete) {
       return { success: false, message: "Pet not found" }
