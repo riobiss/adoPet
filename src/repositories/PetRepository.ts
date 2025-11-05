@@ -33,7 +33,14 @@ export default class PetRepository implements InterfacePetRepository {
       }
     }
   }
-  deletePet(id: number, pet: PetEntity): void {
-    throw new Error("Method not implemented")
+  async deletePet(
+    id: number,
+  ): Promise<{ success: boolean; message?: string }> {
+    const petToDelete = await this.repository.findOne({ where: { id } })
+    if (!petToDelete) {
+      return { success: false, message: "Pet not found" }
+    }
+    await this.repository.delete(id)
+    return { success: true, message: "Pet deleted with success" }
   }
 }

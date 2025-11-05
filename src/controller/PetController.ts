@@ -43,14 +43,12 @@ export default class PetController {
     }
     return res.status(200).json({ message })
   }
-  deletePet(req: Request, res: Response) {
+  async deletePet(req: Request, res: Response) {
     const { id } = req.params
-    const pet = listOfPets.find(pet => pet.id === Number(id))
-    if (!pet) {
-      return res.status(400).json({ erro: "Pet not found" })
+    const { success, message } = await this.petRepo.deletePet(Number(id))
+    if (!success) {
+      return res.status(404).json({ erro: message })
     }
-    const index = listOfPets.indexOf(pet)
-    listOfPets.splice(index, 1)
-    return res.status(200).json({ message: "Removed successfully" })
+    return res.status(200).json({ message })
   }
 }
