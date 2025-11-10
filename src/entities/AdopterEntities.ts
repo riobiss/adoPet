@@ -10,9 +10,9 @@ export default class AdopterEntity {
   password: string
   @Column()
   phone: string
-  @Column()
+  @Column({nullable: true})
   address?: string
-  @Column()
+  @Column({nullable: true})
   photo?: string
   constructor(
     name: string,
