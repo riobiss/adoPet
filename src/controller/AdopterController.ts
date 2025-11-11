@@ -14,4 +14,15 @@ export default class AdopterController {
     const listOfAdopter = await this.AdopterRepo.listAdopter()
     return res.status(200).json(listOfAdopter)
   }
+  async updateAdopter(req: Request, res: Response) {
+    const { id } = req.params
+    const { success, message } = await this.AdopterRepo.updateAdopter(
+      Number(id),
+      req.body as AdopterEntity
+    )
+    if (!success) {
+      return res.status(404).json({ message })
+    }
+    return res.status(200).json({ message })
+  }
 }
