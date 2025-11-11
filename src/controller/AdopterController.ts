@@ -25,4 +25,16 @@ export default class AdopterController {
     }
     return res.status(200).json({ message })
   }
+  async deleteAdopter(req: Request, res: Response) {
+    const { id } = req.params
+    const { success, message } = await this.AdopterRepo.deleteAdopter(
+      Number(id)
+    )
+    if (!success) {
+      return res.status(404).json({ message })
+    }
+    if (success) {
+      return res.status(200).json({ message })
+    }
+  }
 }

@@ -30,4 +30,14 @@ export default class AdopterRepository implements interfaceAdopterRepository {
       }
     }
   }
+  async deleteAdopter(
+    id: number
+  ): Promise<{ success: boolean; message?: string }> {
+    const adopterToDelete = await this.repository.findOne({ where: { id } })
+    if (!adopterToDelete) {
+      return { success: false, message: "Adopter not found" }
+    }
+    await this.repository.delete(id)
+    return { success: true, message: "Adopter deleted with success" }
+  }
 }
