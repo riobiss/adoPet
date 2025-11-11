@@ -9,5 +9,6 @@ const adopterRepository = new AdopterRepository(
 )
 const adopterController = new AdopterController(adopterRepository)
 router.post("/", (req, res) => adopterController.createAdopter(req, res))
+router.get("/", (req, res) => adopterController.listAdopter(req, res))
 
 export default router

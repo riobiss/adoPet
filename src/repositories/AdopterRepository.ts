@@ -7,4 +7,7 @@ export default class AdopterRepository implements interfaceAdopterRepository {
   createAdopter(adopter: AdopterEntity): void | Promise<void> {
     this.repository.save(adopter)
   }
+  async listAdopter(): Promise<AdopterEntity[]> {
+    return await this.repository.find()
+  }
 }

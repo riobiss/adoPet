@@ -10,4 +10,8 @@ export default class AdopterController {
     await this.AdopterRepo.createAdopter(newAdopter)
     return res.status(200).json({ message: "Adopter Created" })
   }
+  async listAdopter(req: Request, res: Response) {
+    const listOfAdopter = await this.AdopterRepo.listAdopter()
+    return res.status(200).json(listOfAdopter)
+  }
 }
