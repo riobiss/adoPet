@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import AdopterEntity from "../entities/AdopterEntities"
 import AdopterRepository from "../repositories/AdopterRepository"
+import AddressEntity from "../entities/AddressEntities"
 
 export default class AdopterController {
   constructor(private AdopterRepo: AdopterRepository) {}
@@ -29,6 +30,19 @@ export default class AdopterController {
     const { id } = req.params
     const { success, message } = await this.AdopterRepo.deleteAdopter(
       Number(id)
+    )
+    if (!success) {
+      return res.status(404).json({ message })
+    }
+    if (success) {
+      return res.status(200).json({ message })
+    }
+  }
+  async updateAddressAdopter(req: Request, res: Response) {
+    const { id } = req.params
+    const { success, message } = await this.AdopterRepo.updateAddressAdopter(
+      Number(id),
+      req.body as AddressEntity
     )
     if (!success) {
       return res.status(404).json({ message })

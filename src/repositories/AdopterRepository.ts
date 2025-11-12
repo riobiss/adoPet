@@ -1,6 +1,7 @@
 import { Repository } from "typeorm"
 import interfaceAdopterRepository from "./interfaces/InterfaceAdopterRepository"
 import AdopterEntity from "../entities/AdopterEntities"
+import AddressEntity from "../entities/AddressEntities"
 export default class AdopterRepository implements interfaceAdopterRepository {
   constructor(private repository: Repository<AdopterEntity>) {}
 
@@ -39,5 +40,18 @@ export default class AdopterRepository implements interfaceAdopterRepository {
     }
     await this.repository.delete(id)
     return { success: true, message: "Adopter deleted with success" }
+  }
+  async updateAddressAdopter(
+    idAdopter: number,
+    address: AddressEntity
+  ): Promise<{ success: boolean; message?: string }> {
+    const adopter = await this.repository.findOne({ where: { id: idAdopter } })
+    if (!adopter) {
+      return { success: false, message: "Adopter not found" }
+    }
+    const newAddress = new AddressEntity(address.city, address.state)
+    adopter.address = newAddress
+    await this.repository.save(adopter)
+    return { success: true }
   }
 }
