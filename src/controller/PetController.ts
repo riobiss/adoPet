@@ -1,5 +1,4 @@
 import { Request, Response } from "express"
-import type TypePet from "../types/TypePet"
 import EnumSpecies from "../enum/EnumSpecies"
 import PetRepository from "../repositories/PetRepository"
 import PetEntity from "../entities/PetEntities"
@@ -54,9 +53,12 @@ export default class PetController {
     }
     return res.status(200).json({ message })
   }
-  async searchPetBySize(req: Request, res: Response) {
-    const { size } = req.query
-    const listOfPets = await this.petRepo.searchPetBySize(size as EnumSize)
+  async searchPetByField(req: Request, res: Response) {
+    const { field, value } = req.query
+    const listOfPets = await this.petRepo.searchPetByField(
+      field as keyof PetEntity,
+      value as any
+    )
     return res.status(200).json(listOfPets)
   }
 }

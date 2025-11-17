@@ -66,8 +66,11 @@ export default class PetRepository implements InterfacePetRepository {
     await this.repository.save(pet)
     return { success: true, message: "Adopted with success" }
   }
-  async searchPetBySize(size: EnumSize): Promise<PetEntity[]> {
-    const pets = await this.repository.find({ where: { size } })
+  async searchPetByField<T extends keyof PetEntity>(
+    field: T,
+    value: PetEntity[T]
+  ): Promise<PetEntity[]> {
+    const pets = await this.repository.find({ where: { [field]: value } })
     return pets
   }
 }

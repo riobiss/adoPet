@@ -17,6 +17,6 @@ router.delete("/:id", (req, res) => petController.deletePet(req, res))
 router.put("/:pet_id/:adopter_id", (req, res) =>
   petController.adoptPet(req, res)
 )
-router.get("/filterSize", (req, res) => petController.searchPetBySize(req, res))
+router.get("/filter", (req, res) => petController.searchPetByField(req, res))
 
 export default router

@@ -10,5 +10,8 @@ export default interface interfacePetRepository {
     idPet: number,
     idAdopter: number
   ): Promise<{ success: boolean; message?: string }>
-  searchPetBySize(size: EnumSize): Promise<PetEntity[]>
+  searchPetByField<T extends keyof PetEntity>(
+    field: T,
+    value: PetEntity[T]
+  ): Promise<PetEntity[]>
 }
