@@ -3,16 +3,20 @@ import type TypePet from "../types/TypePet"
 import EnumSpecies from "../enum/EnumSpecies"
 import PetRepository from "../repositories/PetRepository"
 import PetEntity from "../entities/PetEntities"
+import EnumSize from "../enum/EnumSize"
 
 export default class PetController {
   constructor(private petRepo: PetRepository) {}
   async createPet(req: Request, res: Response) {
-    const { name, species, dateOfBirth, adopted } = <PetEntity>req.body
+    const { name, species, size, dateOfBirth, adopted } = <PetEntity>req.body
     if (!Object.values(EnumSpecies).includes(species)) {
       return res.status(400).json({ erro: "Species invalid" })
     }
+    if (size && !(size in EnumSize)) {
+      return res.status(400).json({ erro: "Size invalid" })
+    }
 
-    const newPet = new PetEntity(name, species, dateOfBirth, adopted)
+    const newPet = new PetEntity(name, species, dateOfBirth, adopted, size)
     await this.petRepo.createPet(newPet)
     return res.status(201).json(newPet)
   }
