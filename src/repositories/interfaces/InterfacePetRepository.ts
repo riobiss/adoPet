@@ -5,4 +5,8 @@ export default interface interfacePetRepository {
   listPets(): Array<PetEntity> | Promise<PetEntity[]>
   updatePet(id: number, pet: PetEntity): void
   deletePet(id: number): void
+  adoptPet(
+    idPet: number,
+    idAdopter: number
+  ): Promise<{ success: boolean; message?: string }>
 }

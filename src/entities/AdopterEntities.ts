@@ -2,10 +2,12 @@ import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm"
 import AddressEntity from "./AddressEntities"
+import PetEntity from "./PetEntities"
 
 @Entity()
 export default class AdopterEntity {
@@ -26,6 +28,8 @@ export default class AdopterEntity {
   address?: AddressEntity
   @Column({ nullable: true })
   photo?: string
+  @OneToMany(() => PetEntity, pet => pet.adopter)
+  pets!: PetEntity[]
   constructor(
     name: string,
     password: string,

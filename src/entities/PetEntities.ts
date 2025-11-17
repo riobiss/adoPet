@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import EnumSpecies from "../enum/EnumSpecies"
+import AdopterEntity from "./AdopterEntities"
 
 @Entity()
 export default class PetEntity {
@@ -11,6 +12,8 @@ export default class PetEntity {
   species: EnumSpecies
   @Column()
   dateOfBirth: Date
+  @ManyToOne(() => AdopterEntity, adopter => adopter.pets)
+  adopter!: AdopterEntity
   @Column()
   adopted: boolean
   constructor(

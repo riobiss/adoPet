@@ -1,11 +1,17 @@
 import { Repository } from "typeorm"
 import PetEntity from "../entities/PetEntities"
 import InterfacePetRepository from "./interfaces/InterfacePetRepository"
+import AdopterEntity from "../entities/AdopterEntities"
 
 export default class PetRepository implements InterfacePetRepository {
   private repository: Repository<PetEntity>
-  constructor(repository: Repository<PetEntity>) {
+  private adopterRepo: Repository<AdopterEntity>
+  constructor(
+    repository: Repository<PetEntity>,
+    adopterRepo: Repository<AdopterEntity>
+  ) {
     this.repository = repository
+    this.adopterRepo = adopterRepo
   }
   async createPet(pet: PetEntity): Promise<void> {
     await this.repository.save(pet)
@@ -40,5 +46,22 @@ export default class PetRepository implements InterfacePetRepository {
     }
     await this.repository.delete(id)
     return { success: true, message: "Pet deleted with success" }
+  }
+  async adoptPet(
+    idPet: number,
+    idAdopter: number
+  ): Promise<{ success: boolean; message?: string }> {
+    const pet = await this.repository.findOne({ where: { id: idPet } })
+    if (!pet) {
+      return { success: false, message: "Pet not found" }
+    }
+    const adopter = await this.adopterRepo.findOne({ where: { id: idAdopter } })
+    if (!adopter) {
+      return { success: false, message: "Adopter not found" }
+    }
+    pet.adopter = adopter
+    pet.adopted = true
+    await this.repository.save(pet)
+    return { success: true, message: "Adopted with success" }
   }
 }
