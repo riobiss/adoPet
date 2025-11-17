@@ -1,4 +1,5 @@
 import PetEntity from "../../entities/PetEntities"
+import EnumSize from "../../enum/EnumSize"
 
 export default interface interfacePetRepository {
   createPet(pet: PetEntity): void
@@ -9,4 +10,5 @@ export default interface interfacePetRepository {
     idPet: number,
     idAdopter: number
   ): Promise<{ success: boolean; message?: string }>
+  searchPetBySize(size: EnumSize): Promise<PetEntity[]>
 }

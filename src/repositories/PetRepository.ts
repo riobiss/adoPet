@@ -2,6 +2,7 @@ import { Repository } from "typeorm"
 import PetEntity from "../entities/PetEntities"
 import InterfacePetRepository from "./interfaces/InterfacePetRepository"
 import AdopterEntity from "../entities/AdopterEntities"
+import EnumSize from "../enum/EnumSize"
 
 export default class PetRepository implements InterfacePetRepository {
   private repository: Repository<PetEntity>
@@ -13,6 +14,7 @@ export default class PetRepository implements InterfacePetRepository {
     this.repository = repository
     this.adopterRepo = adopterRepo
   }
+
   async createPet(pet: PetEntity): Promise<void> {
     await this.repository.save(pet)
   }
@@ -63,5 +65,9 @@ export default class PetRepository implements InterfacePetRepository {
     pet.adopted = true
     await this.repository.save(pet)
     return { success: true, message: "Adopted with success" }
+  }
+  async searchPetBySize(size: EnumSize): Promise<PetEntity[]> {
+    const pets = await this.repository.find({ where: { size } })
+    return pets
   }
 }

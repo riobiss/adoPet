@@ -54,4 +54,9 @@ export default class PetController {
     }
     return res.status(200).json({ message })
   }
+  async searchPetBySize(req: Request, res: Response) {
+    const { size } = req.query
+    const listOfPets = await this.petRepo.searchPetBySize(size as EnumSize)
+    return res.status(200).json(listOfPets)
+  }
 }
