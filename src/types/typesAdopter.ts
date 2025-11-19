@@ -1,6 +1,6 @@
 import AdopterEntity from "../entities/AdopterEntities"
 
-type TypeRequestBodyAdopter = Omit<AdopterEntity, "id">
+type TypeRequestBodyAdopter = Omit<AdopterEntity, "id" | "pets">
 
 type TypeRequestParamsAdopter = { id?: string }
 

@@ -7,6 +7,16 @@ import {
   TypeRequestParamsAdopter,
   TypeResponseBodyAdopter,
 } from "../types/typesAdopter"
+import * as yup from "yup"
+
+const adopterBodyValidation: yup.ObjectSchema<
+  Omit<TypeRequestBodyAdopter, "address">
+> = yup.object({
+  name: yup.string().required(),
+  password: yup.string().required().min(8),
+  phone: yup.string().required(),
+  photo: yup.string().optional(),
+})
 
 export default class AdopterController {
   constructor(private AdopterRepo: AdopterRepository) {}
@@ -15,6 +25,22 @@ export default class AdopterController {
     res: Response<TypeResponseBodyAdopter>
   ) {
     const { name, password, phone, address, photo } = <AdopterEntity>req.body
+    let bodyValidated: TypeRequestBodyAdopter
+    try {
+      bodyValidated = await adopterBodyValidation.validate(req.body, {
+        abortEarly: false,
+      })
+    } catch (error) {
+      const yupErrors = error as yup.ValidationError
+
+      const validationErrors: Record<string, string> = {}
+
+      yupErrors.inner.forEach((error) => {
+        if (!error.path) return
+        validationErrors[error.path] = error.message
+      })
+      return res.status(400).json({ error: validationErrors })
+    }
     const newAdopter = new AdopterEntity(name, password, phone, address, photo)
     await this.AdopterRepo.createAdopter(newAdopter)
     return res.status(201).json({ data: { id: newAdopter.id, name, phone } })
