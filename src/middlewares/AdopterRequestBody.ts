@@ -9,13 +9,19 @@ const adopterSchemaBody: yup.ObjectSchema<
   Omit<TypeRequestBodyAdopter, "address">
 > = yup.object({
   name: yup.string().required(),
-  password: yup.string().required().min(8),
+  password: yup
+    .string()
+    .required()
+    .matches(
+      /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/gm,
+      "Senha inválida"
+    ),
   phone: yup
     .string()
     .required()
     .matches(
       /^(\(?[0-9]{2}\)?)? ?([0-9]{4,5})-?([0-9]{4})$/gm,
-      "Invalid phone"
+      "Telefone inválido"
     ),
   photo: yup.string().optional(),
 })

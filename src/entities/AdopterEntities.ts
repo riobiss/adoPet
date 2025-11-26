@@ -1,4 +1,6 @@
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   Entity,
   JoinColumn,
@@ -8,6 +10,7 @@ import {
 } from "typeorm"
 import AddressEntity from "./AddressEntities"
 import PetEntity from "./PetEntities"
+import { encryptedPassword } from "../utils/encryptedPassword"
 
 @Entity()
 export default class AdopterEntity {
@@ -42,5 +45,10 @@ export default class AdopterEntity {
     this.phone = phone
     this.address = address
     this.photo = photo
+  }
+  @BeforeInsert()
+  @BeforeUpdate()
+  private async encryptionPassword(password: string) {
+    this.password = encryptedPassword(this.password)
   }
 }
