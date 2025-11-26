@@ -7,7 +7,7 @@ const adopterSchemaBody: yup.ObjectSchema<
 > = yup.object({
   name: yup.string().required(),
   password: yup.string().required().min(8),
-  phone: yup.string().required(),
+  phone: yup.string().required().matches(/^(\(?[0-9]{2}\)?)? ?([0-9]{4,5})-?([0-9]{4})$/gm, "Invalid phone"),
   photo: yup.string().optional(),
 })
 
