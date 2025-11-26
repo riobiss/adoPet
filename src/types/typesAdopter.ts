@@ -6,8 +6,8 @@ type TypeRequestParamsAdopter = { id?: string }
 
 type TypeResponseBodyAdopter = {
   data?:
-    | Pick<AdopterEntity, "id" | "name" | "phone">
-    | Pick<AdopterEntity, "id" | "name" | "phone">[]
+    | Pick<AdopterEntity, "id" | "name" | "phone" | "address">
+    | Pick<AdopterEntity, "id" | "name" | "phone" | "address">[]
   error?: unknown
 }
 
