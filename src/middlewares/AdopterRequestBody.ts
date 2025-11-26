@@ -1,13 +1,22 @@
 import * as yup from "yup"
 import { Request, Response, NextFunction } from "express"
 import { TypeRequestBodyAdopter } from "../types/typesAdopter"
+import { pt } from "yup-locale-pt"
+
+yup.setLocale(pt)
 
 const adopterSchemaBody: yup.ObjectSchema<
   Omit<TypeRequestBodyAdopter, "address">
 > = yup.object({
   name: yup.string().required(),
   password: yup.string().required().min(8),
-  phone: yup.string().required().matches(/^(\(?[0-9]{2}\)?)? ?([0-9]{4,5})-?([0-9]{4})$/gm, "Invalid phone"),
+  phone: yup
+    .string()
+    .required()
+    .matches(
+      /^(\(?[0-9]{2}\)?)? ?([0-9]{4,5})-?([0-9]{4})$/gm,
+      "Invalid phone"
+    ),
   photo: yup.string().optional(),
 })
 

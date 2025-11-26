@@ -1,6 +1,9 @@
 import * as yup from "yup"
 import { Request, Response, NextFunction } from "express"
 import AddressEntity from "../entities/AddressEntities"
+import { pt } from "yup-locale-pt"
+
+yup.setLocale(pt)
 
 const addressSchemaBody: yup.ObjectSchema<Omit<AddressEntity, "id">> =
   yup.object({
