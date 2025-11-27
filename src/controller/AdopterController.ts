@@ -26,7 +26,7 @@ export default class AdopterController {
     res: Response<TypeResponseBodyAdopter>
   ) {
     const listOfAdopter = await this.AdopterRepo.listAdopter()
-    const data = listOfAdopter.map(adopter => {
+    const data = listOfAdopter.map((adopter) => {
       return {
         id: adopter.id,
         name: adopter.name,

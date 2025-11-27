@@ -2,9 +2,9 @@ import express from "express"
 import AdopterRepository from "../repositories/AdopterRepository"
 import AdopterController from "../controller/AdopterController"
 import { AppDataSource } from "../config/dataSource"
-import { validateAdopterBodyMiddleware } from "../middlewares/AdopterRequestBody"
+import { validateAdopterBodyMiddleware } from "../middlewares/validation/AdopterRequestBody"
 import { RequestHandler } from "express-serve-static-core"
-import { validateAddressBodyMiddleware } from "../middlewares/AddressRequestBody"
+import { validateAddressBodyMiddleware } from "../middlewares/validation/AddressRequestBody"
 const router = express.Router()
 
 const adopterRepository = new AdopterRepository(

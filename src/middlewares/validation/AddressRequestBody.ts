@@ -1,6 +1,6 @@
 import * as yup from "yup"
 import { Request, Response, NextFunction } from "express"
-import AddressEntity from "../entities/AddressEntities"
+import AddressEntity from "../../entities/AddressEntities"
 import { pt } from "yup-locale-pt"
 
 yup.setLocale(pt)
@@ -26,7 +26,7 @@ const validateAddressBodyMiddleware = async (
 
     const validationErrors: Record<string, string> = {}
 
-    yupErrors.inner.forEach(error => {
+    yupErrors.inner.forEach((error) => {
       if (!error.path) return
       validationErrors[error.path] = error.message
     })

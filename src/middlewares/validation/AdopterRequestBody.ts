@@ -1,6 +1,6 @@
 import * as yup from "yup"
 import { Request, Response, NextFunction } from "express"
-import { TypeRequestBodyAdopter } from "../types/typesAdopter"
+import { TypeRequestBodyAdopter } from "../../types/typesAdopter"
 import { pt } from "yup-locale-pt"
 
 yup.setLocale(pt)
@@ -41,7 +41,7 @@ const validateAdopterBodyMiddleware = async (
 
     const validationErrors: Record<string, string> = {}
 
-    yupErrors.inner.forEach(error => {
+    yupErrors.inner.forEach((error) => {
       if (!error.path) return
       validationErrors[error.path] = error.message
     })

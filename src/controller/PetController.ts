@@ -16,13 +16,6 @@ export default class PetController {
     res: Response<TypeResponseBodyPet>
   ) {
     const { name, species, size, dateOfBirth, adopted } = <PetEntity>req.body
-    if (!Object.values(EnumSpecies).includes(species)) {
-      return res.status(400).json({ error: "Species invalid" })
-    }
-    if (size && !(size in EnumSize)) {
-      return res.status(400).json({ error: "Size invalid" })
-    }
-
     const newPet = new PetEntity(name, species, dateOfBirth, adopted, size)
     await this.petRepo.createPet(newPet)
     return res
@@ -39,7 +32,7 @@ export default class PetController {
         id: pet.id,
         name: pet.name,
         species: pet.species,
-        size: pet.size,
+        size: pet.size  !== null ? pet.size : undefined,
       }
     })
     return res.status(200).json({ data })
