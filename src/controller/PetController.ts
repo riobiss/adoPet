@@ -49,7 +49,7 @@ export default class PetController {
     if (!success) {
       return res.status(404).json({ error: message })
     }
-    return res.status(204)
+    return res.status(204).send()
   }
   async deletePet(
     req: Request<TypeRequestParamsPet, {}, TypeRequestBodyPet>,
@@ -60,7 +60,7 @@ export default class PetController {
     if (!success) {
       return res.status(404).json({ error: message })
     }
-    return res.status(204)
+    return res.status(204).send()
   }
   async adoptPet(
     req: Request<TypeRequestParamsPet, {}, TypeRequestBodyPet>,
@@ -74,7 +74,7 @@ export default class PetController {
     if (!success) {
       return res.status(404).json({ error: message })
     }
-    return res.status(204)
+    return res.status(204).send()
   }
   async searchPetByField(req: Request, res: Response) {
     const { field, value } = req.query

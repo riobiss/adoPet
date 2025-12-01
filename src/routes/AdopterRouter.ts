@@ -5,6 +5,7 @@ import { AppDataSource } from "../config/dataSource"
 import { validateAdopterBodyMiddleware } from "../middlewares/validation/AdopterRequestBody"
 import { RequestHandler } from "express-serve-static-core"
 import { validateAddressBodyMiddleware } from "../middlewares/validation/AddressRequestBody"
+import { verifyIdMiddleware } from "../middlewares/validation/verifyId"
 const router = express.Router()
 
 const adopterRepository = new AdopterRepository(
@@ -22,9 +23,9 @@ router.post("/", validateAdopterBody, (req, res) =>
   adopterController.createAdopter(req, res)
 )
 router.get("/", (req, res) => adopterController.listAdopter(req, res))
-router.put("/:id", (req, res) => adopterController.updateAdopter(req, res))
-router.delete("/:id", (req, res) => adopterController.deleteAdopter(req, res))
-router.patch("/:id", validateAddressBody, (req, res) =>
+router.put("/:id", verifyIdMiddleware, (req, res) => adopterController.updateAdopter(req, res))
+router.delete("/:id", verifyIdMiddleware, (req, res) => adopterController.deleteAdopter(req, res))
+router.patch("/:id", verifyIdMiddleware, validateAddressBody, (req, res) =>
   adopterController.updateAddressAdopter(req, res)
 )
 

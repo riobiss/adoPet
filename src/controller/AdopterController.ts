@@ -48,7 +48,7 @@ export default class AdopterController {
     if (!success) {
       return res.status(404).json({ error: message })
     }
-    return res.status(204)
+    return res.status(204).send()
   }
   async deleteAdopter(
     req: Request<TypeRequestParamsAdopter, {}, TypeRequestBodyAdopter>,
@@ -62,7 +62,7 @@ export default class AdopterController {
       return res.status(404).json({ error: message })
     }
     if (success) {
-      return res.status(204)
+      return res.status(204).send()
     }
   }
   async updateAddressAdopter(
@@ -78,7 +78,7 @@ export default class AdopterController {
       return res.status(404).json({ error: message })
     }
     if (success) {
-      return res.status(204)
+      return res.status(204).send()
     }
   }
 }

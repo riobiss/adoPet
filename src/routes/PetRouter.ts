@@ -4,6 +4,7 @@ import PetRepository from "../repositories/PetRepository"
 import { AppDataSource } from "../config/dataSource"
 import { validatePetBodyMiddleware } from "../middlewares/validation/PetRequestBody"
 import { RequestHandler } from "express-serve-static-core"
+import { verifyIdMiddleware } from "../middlewares/validation/verifyId"
 
 const router = Router()
 const petRepository = new PetRepository(
@@ -20,9 +21,13 @@ router.post("/", validatePetBody, (req, res) =>
   petController.createPet(req, res)
 )
 router.get("/", (req, res) => petController.listPets(req, res))
-router.put("/:id", (req, res) => petController.updatePet(req, res))
-router.delete("/:id", (req, res) => petController.deletePet(req, res))
-router.put("/:pet_id/:adopter_id", (req, res) =>
+router.put("/:id", verifyIdMiddleware, (req, res) =>
+  petController.updatePet(req, res)
+)
+router.delete("/:id", verifyIdMiddleware, (req, res) =>
+  petController.deletePet(req, res)
+)
+router.put("/:pet_id/:adopter_id", verifyIdMiddleware, (req, res) =>
   petController.adoptPet(req, res)
 )
 router.get("/filter", (req, res) => petController.searchPetByField(req, res))
