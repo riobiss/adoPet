@@ -2,12 +2,18 @@ import { Repository } from "typeorm"
 import interfaceAdopterRepository from "./interfaces/InterfaceAdopterRepository"
 import AdopterEntity from "../entities/AdopterEntities"
 import AddressEntity from "../entities/AddressEntities"
-import { NotFound } from "../utils/errorHandler"
+import { BadRequest, NotFound } from "../utils/errorHandler"
 export default class AdopterRepository implements interfaceAdopterRepository {
   constructor(private repository: Repository<AdopterEntity>) {}
 
-  createAdopter(adopter: AdopterEntity): void | Promise<void> {
-    this.repository.save(adopter)
+  private async ValidatePhoneAdopter(phone: string) {
+    return await this.repository.findOne({ where: { phone } })
+  }
+  async createAdopter(adopter: AdopterEntity): Promise<void> {
+    if (await this.ValidatePhoneAdopter(adopter.phone)) {
+      throw new BadRequest("Phone number already registered.")
+    }
+    await this.repository.save(adopter)
   }
   async listAdopter(): Promise<AdopterEntity[]> {
     return await this.repository.find()

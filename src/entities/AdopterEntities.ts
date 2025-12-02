@@ -20,7 +20,7 @@ export default class AdopterEntity {
   name: string
   @Column()
   password: string
-  @Column()
+  @Column({unique: true})
   phone: string
   @OneToOne(() => AddressEntity, {
     nullable: true,
