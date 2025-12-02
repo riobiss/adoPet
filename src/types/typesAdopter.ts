@@ -8,7 +8,6 @@ type TypeResponseBodyAdopter = {
   data?:
     | Pick<AdopterEntity, "id" | "name" | "phone" | "address">
     | Pick<AdopterEntity, "id" | "name" | "phone" | "address">[]
-  error?: unknown
 }
 
 export {

@@ -25,7 +25,7 @@ export default class PetRepository implements InterfacePetRepository {
   async updatePet(
     id: number,
     newData: PetEntity
-  ): Promise<{ success: boolean; message?: string }> {
+  ) {
     const petToUpdate = await this.repository.findOne({ where: { id } })
     if (!petToUpdate) {
       throw new NotFound("Pet not found")
@@ -34,7 +34,7 @@ export default class PetRepository implements InterfacePetRepository {
     await this.repository.save(petToUpdate)
     return { success: true, message: "Pet updated successfully" }
   }
-  async deletePet(id: number): Promise<{ success: boolean; message?: string }> {
+  async deletePet(id: number){
     const petToDelete = await this.repository.findOne({ where: { id } })
     if (!petToDelete) {
       throw new NotFound("Pet not found")
@@ -45,7 +45,7 @@ export default class PetRepository implements InterfacePetRepository {
   async adoptPet(
     idPet: number,
     idAdopter: number
-  ): Promise<{ success: boolean; message?: string }> {
+  ){
     const pet = await this.repository.findOne({ where: { id: idPet } })
     if (!pet) {
       throw new NotFound("Adopter not found")

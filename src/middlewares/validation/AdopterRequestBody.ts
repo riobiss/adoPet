@@ -2,6 +2,7 @@ import * as yup from "yup"
 import { Request, Response, NextFunction } from "express"
 import { TypeRequestBodyAdopter } from "../../types/typesAdopter"
 import { pt } from "yup-locale-pt"
+import ValidateYup from "../../utils/ValidateYup"
 
 yup.setLocale(pt)
 
@@ -31,21 +32,6 @@ const validateAdopterBodyMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    await adopterSchemaBody.validate(req.body, {
-      abortEarly: false,
-    })
-    return next()
-  } catch (error) {
-    const yupErrors = error as yup.ValidationError
-
-    const validationErrors: Record<string, string> = {}
-
-    yupErrors.inner.forEach((error) => {
-      if (!error.path) return
-      validationErrors[error.path] = error.message
-    })
-    return res.status(400).json({ error: validationErrors })
-  }
+  ValidateYup(adopterSchemaBody, req, res, next)
 }
 export { validateAdopterBodyMiddleware }

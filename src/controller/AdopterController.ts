@@ -41,44 +41,23 @@ export default class AdopterController {
     res: Response<TypeResponseBodyAdopter>
   ) {
     const { id } = req.params
-    const { success, message } = await this.AdopterRepo.updateAdopter(
-      Number(id),
-      req.body as AdopterEntity
-    )
-    if (!success) {
-      return res.status(404).json({ error: message })
-    }
-    return res.status(204).send()
+    await this.AdopterRepo.updateAdopter(Number(id), req.body as AdopterEntity)
+    return res.sendStatus(204)
   }
   async deleteAdopter(
     req: Request<TypeRequestParamsAdopter, {}, TypeRequestBodyAdopter>,
     res: Response<TypeResponseBodyAdopter>
   ) {
     const { id } = req.params
-    const { success, message } = await this.AdopterRepo.deleteAdopter(
-      Number(id)
-    )
-    if (!success) {
-      return res.status(404).json({ error: message })
-    }
-    if (success) {
-      return res.status(204).send()
-    }
+    await this.AdopterRepo.deleteAdopter(Number(id))
+    return res.sendStatus(204)
   }
   async updateAddressAdopter(
     req: Request<TypeRequestParamsAdopter, {}, AddressEntity>,
     res: Response<TypeResponseBodyAdopter>
   ) {
     const { id } = req.params
-    const { success, message } = await this.AdopterRepo.updateAddressAdopter(
-      Number(id),
-      req.body
-    )
-    if (!success) {
-      return res.status(404).json({ error: message })
-    }
-    if (success) {
-      return res.status(204).send()
-    }
+    await this.AdopterRepo.updateAddressAdopter(Number(id), req.body)
+    return res.sendStatus(204)
   }
 }

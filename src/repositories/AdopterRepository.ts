@@ -18,10 +18,7 @@ export default class AdopterRepository implements interfaceAdopterRepository {
   async listAdopter(): Promise<AdopterEntity[]> {
     return await this.repository.find()
   }
-  async updateAdopter(
-    id: number,
-    newData: AdopterEntity
-  ): Promise<{ success: boolean; message?: string }> {
+  async updateAdopter(id: number, newData: AdopterEntity) {
     const adopterToUpdate = await this.repository.findOne({ where: { id } })
     if (!adopterToUpdate) {
       throw new NotFound("Adopter not found")
@@ -30,9 +27,7 @@ export default class AdopterRepository implements interfaceAdopterRepository {
     await this.repository.save(adopterToUpdate)
     return { success: true, message: "Adopter updated successfully" }
   }
-  async deleteAdopter(
-    id: number
-  ): Promise<{ success: boolean; message?: string }> {
+  async deleteAdopter(id: number) {
     const adopterToDelete = await this.repository.findOne({ where: { id } })
     if (!adopterToDelete) {
       throw new NotFound("Adopter not found")
@@ -40,10 +35,7 @@ export default class AdopterRepository implements interfaceAdopterRepository {
     await this.repository.delete(id)
     return { success: true, message: "Adopter deleted with success" }
   }
-  async updateAddressAdopter(
-    idAdopter: number,
-    address: AddressEntity
-  ): Promise<{ success: boolean; message?: string }> {
+  async updateAddressAdopter(idAdopter: number, address: AddressEntity) {
     const adopter = await this.repository.findOne({ where: { id: idAdopter } })
     if (!adopter) {
       throw new NotFound("Adopter not found")
