@@ -23,8 +23,12 @@ router.post("/", validateAdopterBody, (req, res) =>
   adopterController.createAdopter(req, res)
 )
 router.get("/", (req, res) => adopterController.listAdopter(req, res))
-router.put("/:id", verifyIdMiddleware, (req, res) => adopterController.updateAdopter(req, res))
-router.delete("/:id", verifyIdMiddleware, (req, res) => adopterController.deleteAdopter(req, res))
+router.put("/:id", verifyIdMiddleware, (req, res) =>
+  adopterController.updateAdopter(req, res)
+)
+router.delete("/:id", verifyIdMiddleware, (req, res) =>
+  adopterController.deleteAdopter(req, res)
+)
 router.patch("/:id", verifyIdMiddleware, validateAddressBody, (req, res) =>
   adopterController.updateAddressAdopter(req, res)
 )

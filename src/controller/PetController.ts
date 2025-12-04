@@ -1,13 +1,12 @@
 import { Request, Response } from "express"
-import EnumSpecies from "../enum/EnumSpecies"
 import PetRepository from "../repositories/PetRepository"
 import PetEntity from "../entities/PetEntities"
-import EnumSize from "../enum/EnumSize"
 import {
   TypeRequestBodyPet,
   TypeRequestParamsPet,
   TypeResponseBodyPet,
 } from "../types/typesPet"
+import { EnumHttpStatusCode } from "../enum/EnumHttpStatusCode"
 
 export default class PetController {
   constructor(private petRepo: PetRepository) {}
@@ -44,7 +43,7 @@ export default class PetController {
     const { id } = req.params
     await this.petRepo.updatePet(Number(id), req.body as PetEntity)
 
-    return res.sendStatus(204)
+    return res.sendStatus(EnumHttpStatusCode.NO_CONTENT)
   }
   async deletePet(
     req: Request<TypeRequestParamsPet, {}, TypeRequestBodyPet>,
@@ -53,7 +52,7 @@ export default class PetController {
     const { id } = req.params
     await this.petRepo.deletePet(Number(id))
 
-    return res.sendStatus(204)
+    return res.sendStatus(EnumHttpStatusCode.NO_CONTENT)
   }
   async adoptPet(
     req: Request<TypeRequestParamsPet, {}, TypeRequestBodyPet>,
@@ -61,7 +60,7 @@ export default class PetController {
   ) {
     const { pet_id, adopter_id } = req.params
     await this.petRepo.adoptPet(Number(pet_id), Number(adopter_id))
-    return res.sendStatus(204)
+    return res.sendStatus(EnumHttpStatusCode.NO_CONTENT)
   }
   async searchPetByField(req: Request, res: Response) {
     const { field, value } = req.query

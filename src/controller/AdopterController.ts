@@ -7,6 +7,7 @@ import {
   TypeRequestParamsAdopter,
   TypeResponseBodyAdopter,
 } from "../types/typesAdopter"
+import { EnumHttpStatusCode } from "../enum/EnumHttpStatusCode"
 
 export default class AdopterController {
   constructor(private AdopterRepo: AdopterRepository) {}
@@ -42,7 +43,7 @@ export default class AdopterController {
   ) {
     const { id } = req.params
     await this.AdopterRepo.updateAdopter(Number(id), req.body as AdopterEntity)
-    return res.sendStatus(204)
+    return res.sendStatus(EnumHttpStatusCode.NO_CONTENT)
   }
   async deleteAdopter(
     req: Request<TypeRequestParamsAdopter, {}, TypeRequestBodyAdopter>,
@@ -50,7 +51,7 @@ export default class AdopterController {
   ) {
     const { id } = req.params
     await this.AdopterRepo.deleteAdopter(Number(id))
-    return res.sendStatus(204)
+    return res.sendStatus(EnumHttpStatusCode.NO_CONTENT)
   }
   async updateAddressAdopter(
     req: Request<TypeRequestParamsAdopter, {}, AddressEntity>,
@@ -58,6 +59,6 @@ export default class AdopterController {
   ) {
     const { id } = req.params
     await this.AdopterRepo.updateAddressAdopter(Number(id), req.body)
-    return res.sendStatus(204)
+    return res.sendStatus(EnumHttpStatusCode.OK)
   }
 }

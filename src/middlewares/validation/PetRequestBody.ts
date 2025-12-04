@@ -8,14 +8,15 @@ import ValidateYup from "../../utils/ValidateYup"
 
 yup.setLocale(pt)
 
-const PetSchemaBody: yup.ObjectSchema<Omit<TypeRequestBodyPet, "adopter">> =
-  yup.object({
-    name: yup.string().required(),
-    species: yup.string().oneOf(Object.values(EnumSpecies)).required(),
-    size: yup.string().oneOf(Object.values(EnumSize)),
-    dateOfBirth: yup.date().required(),
-    adopted: yup.bool().required(),
-  })
+const PetSchemaBody: yup.ObjectSchema<
+  Omit<TypeRequestBodyPet, "adopter" | "shelter">
+> = yup.object({
+  name: yup.string().required(),
+  species: yup.string().oneOf(Object.values(EnumSpecies)).required(),
+  size: yup.string().oneOf(Object.values(EnumSize)),
+  dateOfBirth: yup.date().required(),
+  adopted: yup.bool().required(),
+})
 
 const validatePetBodyMiddleware = async (
   req: Request,

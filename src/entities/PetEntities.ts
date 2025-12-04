@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import EnumSpecies from "../enum/EnumSpecies"
 import AdopterEntity from "./AdopterEntities"
+import ShelterEntity from "./ShelterEntities"
 import EnumSize from "../enum/EnumSize"
 
 @Entity()
@@ -15,8 +16,10 @@ export default class PetEntity {
   size?: EnumSize
   @Column()
   dateOfBirth: Date
-  @ManyToOne(() => AdopterEntity, adopter => adopter.pets)
+  @ManyToOne(() => AdopterEntity, (adopter) => adopter.pets)
   adopter!: AdopterEntity
+  @ManyToOne(() => ShelterEntity, (shelter) => shelter.pets)
+  shelter!: ShelterEntity
   @Column()
   adopted: boolean
   constructor(

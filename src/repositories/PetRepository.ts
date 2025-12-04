@@ -2,7 +2,6 @@ import { Repository } from "typeorm"
 import PetEntity from "../entities/PetEntities"
 import InterfacePetRepository from "./interfaces/InterfacePetRepository"
 import AdopterEntity from "../entities/AdopterEntities"
-import EnumSize from "../enum/EnumSize"
 import { NotFound } from "../utils/errorHandler"
 
 export default class PetRepository implements InterfacePetRepository {
